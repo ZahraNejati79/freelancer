@@ -4,7 +4,7 @@ import TextField from "../../ui/TextField";
 const SendOTPFrom: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   return (
-    <form className="space-y-8">
+    <form className="max-w-sm space-y-8 w-full">
       <TextField
         name="phoneNumber"
         value={phoneNumber}
