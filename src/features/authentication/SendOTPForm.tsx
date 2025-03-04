@@ -11,7 +11,7 @@ const SendOTPFrom: React.FC = () => {
         onChange={(e) => setPhoneNumber(e.target.value)}
         label="شماره همراه"
       />
-      <button type="submit" className="btn btn--primary">
+      <button type="submit" className="btn btn--primary w-full">
         ارسال کد تایید
       </button>
     </form>
