@@ -1,12 +1,11 @@
-import CheckOTPForm from "../features/authentication/CheckOTPForm";
-import SendOTPFrom from "../features/authentication/SendOTPForm";
+import AuthContainer from "../features/authentication/AuthContainer";
 
 const Auth: React.FC = () => {
   return (
-    <div className="w-full flex items-center justify-center pt-10">
-      <SendOTPFrom />
-      {/* <CheckOTPForm /> */}
+    <div className="flex justify-center pt-10">
+      <AuthContainer />
     </div>
   );
 };
+
 export default Auth;

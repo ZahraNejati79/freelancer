@@ -1,19 +1,49 @@
 import { useState } from "react";
 import TextField from "../../ui/TextField";
+import { useMutation } from "@tanstack/react-query";
+import { getOtp } from "../../services/AuthService";
+import toast from "react-hot-toast";
+import Loading from "../../ui/Loading";
 
-const SendOTPFrom: React.FC = () => {
+type Props = {
+  setStep: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const SendOTPFrom: React.FC<Props> = ({ setStep }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
+
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: getOtp,
+  });
+
+  const sendOtpHandler = async (e: any) => {
+    e.preventDefault();
+    try {
+      await mutateAsync({ phoneNumber });
+      toast.success("تا دو دقیقه وقت داری کد 123456 رو ارسال کنی!");
+      setStep(2);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
   return (
-    <form className="max-w-sm space-y-8 w-full">
+    <form className="max-w-sm space-y-8 w-full" onSubmit={sendOtpHandler}>
       <TextField
         name="phoneNumber"
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
         label="شماره همراه"
       />
-      <button type="submit" className="btn btn--primary w-full">
-        ارسال کد تایید
-      </button>
+      <div>
+        {isPending ? (
+          <Loading />
+        ) : (
+          <button type="submit" className="btn btn--primary w-full">
+            ارسال کد تایید
+          </button>
+        )}
+      </div>
     </form>
   );
 };
