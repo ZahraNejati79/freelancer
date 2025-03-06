@@ -1,4 +1,3 @@
-import { useState } from "react";
 import TextField from "../../ui/TextField";
 import { useMutation } from "@tanstack/react-query";
 import { getOtp } from "../../services/AuthService";
@@ -7,11 +6,11 @@ import Loading from "../../ui/Loading";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
+  phoneNumber: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const SendOTPFrom: React.FC<Props> = ({ setStep }) => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-
+const SendOTPFrom: React.FC<Props> = ({ setStep, phoneNumber, onChange }) => {
   const { isPending, mutateAsync } = useMutation({
     mutationFn: getOtp,
   });
@@ -32,7 +31,7 @@ const SendOTPFrom: React.FC<Props> = ({ setStep }) => {
       <TextField
         name="phoneNumber"
         value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
+        onChange={onChange}
         label="شماره همراه"
       />
       <div>
