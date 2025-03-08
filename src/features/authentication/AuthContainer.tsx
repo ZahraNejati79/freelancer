@@ -5,11 +5,18 @@ import { useMutation } from "@tanstack/react-query";
 import { getOtp } from "../../services/AuthService";
 import toast from "react-hot-toast";
 
+const RESEND_TIME = 90;
+
 const AuthContainer: React.FC = () => {
   const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [time, setTime] = useState(RESEND_TIME);
 
-  const { isPending: isSendingOtp, mutateAsync } = useMutation({
+  const {
+    isPending: isSendingOtp,
+    mutateAsync,
+    data: otpResponse,
+  } = useMutation({
     mutationFn: getOtp,
   });
 
@@ -18,6 +25,7 @@ const AuthContainer: React.FC = () => {
     try {
       await mutateAsync({ phoneNumber });
       toast.success("تا دو دقیقه وقت داری کد 123456 رو ارسال کنی!");
+      setTime(RESEND_TIME);
       setStep(2);
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -41,6 +49,9 @@ const AuthContainer: React.FC = () => {
             onResendOtp={sendOtpHandler}
             phoneNumber={phoneNumber}
             onBack={() => setStep(1)}
+            otpResponse={otpResponse}
+            time={time}
+            setTime={setTime}
           />
         );
       default:
